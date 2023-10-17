@@ -7,6 +7,13 @@ import Menu from "./components/layouts/Menu";
 import { Link, Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "./components/pages/LoginPage";
 import RegisterPage from "./components/pages/RegisterPage";
+import ShoppingPage from "./components/pages/ShoppingPage";
+import StockCreatePage from "./components/pages/StockCreatePage";
+import StockEditPage from "./components/pages/StockEditPage";
+import StockPage from "./components/pages/StockPage";
+import ReportPage from "./components/pages/ReportPage";
+import AboutUsPage from "./components/pages/AboutUsPage";
+import ProductDetailPage from "./components/pages/ProductDetailPage";
 
 const drawerWidth = 240;
 
@@ -39,7 +46,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function App() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => setOpen((prev) => !prev);
 
   return (
@@ -52,6 +59,13 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/shopping" element={<ShoppingPage />} />
+          <Route path="/shopping/product/:id" element={<ProductDetailPage />} />
+          <Route path="/stock/create" element={<StockCreatePage />} />
+          <Route path="/stock/edit/:id" element={<StockEditPage />} />
+          <Route path="/stock" element={<StockPage />} />
+          <Route path="/report" element={<ReportPage />} />
+          <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/" element={<Navigate to="/login"></Navigate>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
