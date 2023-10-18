@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
+import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Header from "./components/layouts/Header";
@@ -14,6 +14,7 @@ import StockPage from "./components/pages/StockPage";
 import ReportPage from "./components/pages/ReportPage";
 import AboutUsPage from "./components/pages/AboutUsPage";
 import ProductDetailPage from "./components/pages/ProductDetailPage";
+import HomePage from "./components/pages/HomePage";
 
 const drawerWidth = 240;
 
@@ -36,6 +37,63 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   }),
 }));
 
+const theme = createTheme({
+  components: {
+    MuiBadge: {
+      styleOverrides: {
+        badge: {
+          backgroundColor: "red",
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundImage:
+            "url(" +
+            `${process.env.PUBLIC_URL}/images/drawer-background.png` +
+            ")",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "bottom",
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          "&.Mui-selected": {
+            backgroundColor: "#9cff7a",
+          },
+          "&.Mui-selected:hover": {
+            backgroundColor: "#9cff7a",
+          },
+          "&:hover": {
+            backgroundColor: "#e2ffd8",
+          },
+        },
+      },
+    },
+  },
+  typography: {
+    fontFamily: "Poppins",
+    fontWeightLight: 200,
+    fontWeightRegular: 300,
+    fontWeightMedium: 500,
+    fontWeightBold: 800,
+  },
+  palette: {
+    primary: {
+      main: "#54B435",
+    },
+    secondary: {
+      main: "#F0FF42",
+    },
+    background: {
+      default: "white",
+    },
+  },
+});
+
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -50,27 +108,33 @@ export default function App() {
   const toggleDrawer = () => setOpen((prev) => !prev);
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <Header open={open} onDrawerOpen={toggleDrawer}></Header>
-      <Menu open={open} onDrawerClose={toggleDrawer}></Menu>
-      <Main open={open}>
-        <DrawerHeader />
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/shopping" element={<ShoppingPage />} />
-          <Route path="/shopping/product/:id" element={<ProductDetailPage />} />
-          <Route path="/stock/create" element={<StockCreatePage />} />
-          <Route path="/stock/edit/:id" element={<StockEditPage />} />
-          <Route path="/stock" element={<StockPage />} />
-          <Route path="/report" element={<ReportPage />} />
-          <Route path="/about-us" element={<AboutUsPage />} />
-          <Route path="/" element={<Navigate to="/login"></Navigate>} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Main>
-    </Box>
+    <ThemeProvider theme={theme}>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <Header open={open} onDrawerOpen={toggleDrawer}></Header>
+        <Menu open={open} onDrawerClose={toggleDrawer}></Menu>
+        <Main open={open}>
+          <DrawerHeader />
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/shopping" element={<ShoppingPage />} />
+            <Route
+              path="/shopping/product/:id"
+              element={<ProductDetailPage />}
+            />
+            <Route path="/stock/create" element={<StockCreatePage />} />
+            <Route path="/stock/edit/:id" element={<StockEditPage />} />
+            <Route path="/stock" element={<StockPage />} />
+            <Route path="/report" element={<ReportPage />} />
+            <Route path="/about-us" element={<AboutUsPage />} />
+            <Route path="/" element={<Navigate to="/login"></Navigate>} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Main>
+      </Box>
+    </ThemeProvider>
   );
 }
 
