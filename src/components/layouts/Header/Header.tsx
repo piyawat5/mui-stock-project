@@ -5,11 +5,13 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Badge, Box } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -40,6 +42,7 @@ type HeaderProp = {
 };
 
 export default function Header({ open, onDrawerOpen }: HeaderProp) {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const menuId = "Account-menu";
   const isMenuOpen = Boolean(anchorEl);
@@ -67,8 +70,21 @@ export default function Header({ open, onDrawerOpen }: HeaderProp) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMenuClose();
+        }}
+      >
+        Profile
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          navigate("/login");
+          handleMenuClose();
+        }}
+      >
+        Log out
+      </MenuItem>
     </Menu>
   );
   return (
@@ -95,6 +111,15 @@ export default function Header({ open, onDrawerOpen }: HeaderProp) {
           >
             <Badge badgeContent={17} color="error">
               <NotificationsIcon />
+            </Badge>
+          </IconButton>
+          <IconButton
+            size="large"
+            aria-label="show 17 new notifications"
+            color="inherit"
+          >
+            <Badge badgeContent={3} color="error">
+              <AddShoppingCartIcon />
             </Badge>
           </IconButton>
           <IconButton

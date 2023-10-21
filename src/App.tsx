@@ -90,7 +90,7 @@ const theme = createTheme({
       main: "#F0FF42",
     },
     background: {
-      default: "white",
+      default: "rgb(201, 201, 201);",
     },
   },
 });

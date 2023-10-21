@@ -18,7 +18,6 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import HouseIcon from "@mui/icons-material/House";
 
 const drawerWidth = 240;
-
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
