@@ -8,33 +8,29 @@ import { Portal } from "react-overlays";
 
 type props = {
   handleDate: (date: Date | null) => void;
+  value: Date | null;
 };
 
-const MyDatepicker: React.FC<props> = ({ handleDate }) => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
+const MyDatepicker: React.FC<props> = ({ handleDate, value }) => {
   // ** fix popup is overlaid by other element.
-  const CalendarContainer = ({ children }: any) => {
-    const el = document.getElementById("calendar-portal");
-
-    return <Portal container={el}>{children}</Portal>;
-  };
-
-  useEffect(() => {
-    handleDate(selectedDate);
-  }, [selectedDate]);
+  function CalendarContainer({ children }: any) {
+    const element = document.getElementById("calendar-portal");
+    return <Portal container={element}>{children}</Portal>;
+  }
 
   return (
     <div>
       <DatePicker
+        peekNextMonth
         showMonthDropdown
         showYearDropdown
+        dropdownMode="select"
         dateFormat="dd/MM/yyyy"
         placeholderText="Birth of date"
         wrapperClassName="date-picker"
         maxDate={new Date()}
-        selected={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
+        selected={value}
+        onChange={(date) => handleDate(date)}
         className="my-datepicker"
         calendarClassName="my-datepicker-calendar"
         popperContainer={CalendarContainer}

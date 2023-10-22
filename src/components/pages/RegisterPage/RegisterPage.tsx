@@ -78,6 +78,7 @@ const RegisterPage: React.FC<any> = () => {
             required
           ></TextField>
           <MyDatepicker
+            value={values.information.birth}
             handleDate={(date) => setFieldValue("information.birth", date)}
           ></MyDatepicker>
           <TextField
