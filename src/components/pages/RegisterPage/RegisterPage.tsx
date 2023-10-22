@@ -10,22 +10,24 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { CSSProperties, useState } from "react";
+import MyDatepicker from "../../features/MyDatepicker";
 
 // type RegisterPageProps = {
 
 // };
 
 type Information = {
-  age: number;
+  birth: Date | null;
   address: string;
   email: string;
   gender: string;
 };
 
 type Account = {
-  username?: string;
-  password?: string;
-  information?: Information;
+  username: string;
+  password: string;
+  information: Information;
 };
 
 const RegisterPage: React.FC<any> = () => {
@@ -34,22 +36,28 @@ const RegisterPage: React.FC<any> = () => {
     username: "",
     password: "",
     information: {
-      age: 0,
+      birth: new Date(),
       address: "",
       email: "",
       gender: "",
     },
   };
+  const classes: { [key: string]: CSSProperties } = {
+    root: { display: "flex", justifyContent: "center" },
+    card: { padding: "8px", width: 300 },
+    buttons: { marginTop: 2 },
+  };
 
   const Form = ({
     handleSubmit,
     handleChange,
+    setFieldValue,
     isSubmitting,
     values,
   }: FormikProps<Account>) => {
     return (
       <form action="" onSubmit={handleSubmit}>
-        <Stack direction="column" spacing={2}>
+        <Stack direction="column" spacing={4}>
           <TextField
             onChange={handleChange}
             value={values.username}
@@ -69,7 +77,30 @@ const RegisterPage: React.FC<any> = () => {
             fullWidth
             required
           ></TextField>
-          <Stack direction={"row"} spacing={2}>
+          <MyDatepicker
+            handleDate={(date) => setFieldValue("information.birth", date)}
+          ></MyDatepicker>
+          <TextField
+            onChange={handleChange}
+            value={values.information.address}
+            id="information.address"
+            label="address"
+            variant="outlined"
+            autoFocus
+            required
+            fullWidth
+          ></TextField>
+          <TextField
+            onChange={handleChange}
+            value={values.information.email}
+            id="information.email"
+            label="email"
+            variant="outlined"
+            type="email"
+            fullWidth
+            required
+          ></TextField>
+          <Stack direction={"column-reverse"} spacing={2}>
             <Button
               variant="outlined"
               disabled={isSubmitting}
@@ -99,8 +130,8 @@ const RegisterPage: React.FC<any> = () => {
 
   return (
     <>
-      <Box>
-        <Card sx={{ maxWidth: 345 }}>
+      <Box sx={classes.root}>
+        <Card sx={classes.card}>
           <CardContent>
             <Typography marginBottom={4}>Register</Typography>
             <Formik
