@@ -37,6 +37,7 @@ const MyDatepicker: React.FC<props> = ({ handleDate, value }) => {
         popperContainer={CalendarContainer}
         dayClassName={(date) => (date.getDay() === 0 ? "sunday" : null)}
         customInput={<TextField fullWidth></TextField>}
+        required
       />
     </div>
   );
