@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { Formik, FormikProps } from "formik";
+import { Formik, FormikProps, Field } from "formik";
+
 import {
   Box,
   Button,
@@ -10,6 +11,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import { CSSProperties, useState } from "react";
 import MyDatepicker from "../../features/MyDatepicker";
 
@@ -17,11 +23,17 @@ import MyDatepicker from "../../features/MyDatepicker";
 
 // };
 
+enum Gender {
+  Female = "FEMALE",
+  Male = "MALE",
+  Other = "OTHER",
+}
+
 type Information = {
   birth: Date | null;
   address: string;
   email: string;
-  gender: string;
+  gender: Gender;
 };
 
 type Account = {
@@ -36,10 +48,10 @@ const RegisterPage: React.FC<any> = () => {
     username: "",
     password: "",
     information: {
-      birth: new Date(),
+      birth: null,
       address: "",
       email: "",
-      gender: "",
+      gender: Gender.Female,
     },
   };
   const classes: { [key: string]: CSSProperties } = {
@@ -87,7 +99,6 @@ const RegisterPage: React.FC<any> = () => {
             id="information.address"
             label="address"
             variant="outlined"
-            autoFocus
             required
             fullWidth
           ></TextField>
@@ -101,6 +112,29 @@ const RegisterPage: React.FC<any> = () => {
             fullWidth
             required
           ></TextField>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Gender</FormLabel>
+            <RadioGroup
+              name="information.gender"
+              value={values.information.gender}
+              onChange={handleChange}
+            >
+              {Object.keys(Gender).map((key) => (
+                <FormControlLabel
+                  key={key}
+                  value={Gender[key as keyof typeof Gender]}
+                  control={
+                    <Field
+                      as={Radio}
+                      name="information.gender"
+                      value={Gender[key as keyof typeof Gender]}
+                    />
+                  }
+                  label={key}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
           <Stack direction={"column-reverse"} spacing={2}>
             <Button
               variant="outlined"
@@ -134,7 +168,9 @@ const RegisterPage: React.FC<any> = () => {
       <Box sx={classes.root}>
         <Card sx={classes.card}>
           <CardContent>
-            <Typography marginBottom={4}>Register</Typography>
+            <Typography fontSize={20} marginBottom={4}>
+              Register
+            </Typography>
             <Formik
               onSubmit={(value, { setSubmitting }) => {
                 alert(JSON.stringify(value));
