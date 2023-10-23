@@ -25,8 +25,9 @@ const MyDatepicker: React.FC<props> = ({ handleDate, value }) => {
         showMonthDropdown
         showYearDropdown
         dropdownMode="select"
+        autoComplete="off"
         dateFormat="dd/MM/yyyy"
-        placeholderText="Birth of date"
+        placeholderText="Date of birth"
         wrapperClassName="date-picker"
         maxDate={new Date()}
         selected={value}
