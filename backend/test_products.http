@@ -3,11 +3,11 @@ GET http://localhost:8085/api/v2/stock/product HTTP/1.1
 
 
 ### Get product by Id
-GET http://localhost:8085/api/v2/stock/product/7 HTTP/1.1
+GET http://localhost:8085/api/v2/stock/product/65 HTTP/1.1
 
 
 ### Get product by keyword
-GET http://localhost:8085/api/v2/stock/product/keyword/Arduino Nano HTTP/1.1
+GET http://localhost:8085/api/v2/stock/product/keyword/รุ่น HTTP/1.1
 
 
 ### Create 
@@ -41,11 +41,11 @@ Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0g
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="id";
 
-39
+65
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="name";
 
-React 
+jamepipi 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="stock";
 
@@ -63,4 +63,4 @@ Content-Type: image/png
 
 
 ### Delete 
-DELETE http://localhost:8085/api/v2/stock/product/13 HTTP/1.1
+DELETE http://localhost:8085/api/v2/stock/product/64 HTTP/1.1
