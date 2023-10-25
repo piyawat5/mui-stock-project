@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { Formik, FormikProps, Field } from "formik";
-
+import { Formik, FormikProps } from "formik";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -11,14 +11,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import { CSSProperties, useState } from "react";
-import MyDatepicker from "../../features/MyDatepicker";
-import { Account, Gender } from "../../types/account.type";
+// import Radio from "@mui/material/Radio";
+// import RadioGroup from "@mui/material/RadioGroup";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import FormControl from "@mui/material/FormControl";
+// import FormLabel from "@mui/material/FormLabel";
+import { CSSProperties } from "react";
+// import MyDatepicker from "../../features/MyDatepicker";
+import { Account } from "../../types/account.type";
 
 // type RegisterPageProps = {
 
@@ -29,12 +29,12 @@ const RegisterPage: React.FC<any> = () => {
   const initial: Account = {
     username: "",
     password: "",
-    information: {
-      birth: null,
-      address: "",
-      email: "",
-      gender: Gender.Female,
-    },
+    // information: {
+    //   birth: null,
+    //   address: "",
+    //   email: "",
+    //   gender: Gender.Female,
+    // },
   };
   const classes: { [key: string]: CSSProperties } = {
     root: { display: "flex", justifyContent: "center", alignItems: "center" },
@@ -71,7 +71,7 @@ const RegisterPage: React.FC<any> = () => {
             fullWidth
             required
           ></TextField>
-          <MyDatepicker
+          {/* <MyDatepicker
             value={values?.information?.birth}
             handleDate={(date) => setFieldValue("information.birth", date)}
           ></MyDatepicker>
@@ -116,7 +116,7 @@ const RegisterPage: React.FC<any> = () => {
                 />
               ))}
             </RadioGroup>
-          </FormControl>
+          </FormControl> */}
           <Stack direction={"column-reverse"} spacing={2}>
             <Button
               onClick={() => navigate("/login")}
@@ -155,12 +155,20 @@ const RegisterPage: React.FC<any> = () => {
               Register
             </Typography>
             <Formik
-              onSubmit={(value, { setSubmitting }) => {
-                alert(JSON.stringify(value));
+              onSubmit={async (value, { setSubmitting }) => {
+                const register = await axios.post(
+                  "http://localhost:8085/api/v2/authen/register",
+                  value
+                );
+                alert(
+                  JSON.stringify(
+                    register.data.result === "ok"
+                      ? "Register successfully"
+                      : "Opps somethings wrong , please try again."
+                  )
+                );
 
-                setTimeout(() => {
-                  setSubmitting(false);
-                }, 1500);
+                setSubmitting(false);
               }}
               initialValues={initial}
             >
