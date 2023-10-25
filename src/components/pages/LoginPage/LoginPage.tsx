@@ -13,15 +13,11 @@ import {
 } from "@mui/material";
 import { CSSProperties, useState } from "react";
 import MyDatepicker from "../../features/MyDatepicker";
+import { Account } from "../../types/account.type";
 
 // type LoginProps = {
 
 // };
-
-type Account = {
-  username: string;
-  password: string;
-};
 
 const LoginPage: React.FC<any> = () => {
   const navigate = useNavigate();
@@ -38,7 +34,6 @@ const LoginPage: React.FC<any> = () => {
   const Form = ({
     handleSubmit,
     handleChange,
-    setFieldValue,
     isSubmitting,
     values,
   }: FormikProps<Account>) => {
@@ -67,13 +62,14 @@ const LoginPage: React.FC<any> = () => {
           ></TextField>
           <Stack direction={"column-reverse"} spacing={2}>
             <Button
+              onClick={() => navigate("/register")}
               variant="outlined"
               disabled={isSubmitting}
               color="primary"
               type="button"
               fullWidth
             >
-              CANCEL
+              REGISTER
             </Button>
             <Button
               sx={{

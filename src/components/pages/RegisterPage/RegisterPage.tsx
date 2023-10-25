@@ -18,29 +18,11 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { CSSProperties, useState } from "react";
 import MyDatepicker from "../../features/MyDatepicker";
+import { Account, Gender } from "../../types/account.type";
 
 // type RegisterPageProps = {
 
 // };
-
-enum Gender {
-  Female = "FEMALE",
-  Male = "MALE",
-  Other = "OTHER",
-}
-
-type Information = {
-  birth: Date | null;
-  address: string;
-  email: string;
-  gender: Gender;
-};
-
-type Account = {
-  username: string;
-  password: string;
-  information: Information;
-};
 
 const RegisterPage: React.FC<any> = () => {
   const navigate = useNavigate();
@@ -55,7 +37,7 @@ const RegisterPage: React.FC<any> = () => {
     },
   };
   const classes: { [key: string]: CSSProperties } = {
-    root: { display: "flex", justifyContent: "center" },
+    root: { display: "flex", justifyContent: "center", alignItems: "center" },
     card: { padding: "8px", width: 300 },
     buttons: { marginTop: 2 },
   };
@@ -90,12 +72,12 @@ const RegisterPage: React.FC<any> = () => {
             required
           ></TextField>
           <MyDatepicker
-            value={values.information.birth}
+            value={values?.information?.birth}
             handleDate={(date) => setFieldValue("information.birth", date)}
           ></MyDatepicker>
           <TextField
             onChange={handleChange}
-            value={values.information.address}
+            value={values?.information?.address}
             id="information.address"
             label="address"
             variant="outlined"
@@ -104,7 +86,7 @@ const RegisterPage: React.FC<any> = () => {
           ></TextField>
           <TextField
             onChange={handleChange}
-            value={values.information.email}
+            value={values.information?.email}
             id="information.email"
             label="email"
             variant="outlined"
@@ -116,7 +98,7 @@ const RegisterPage: React.FC<any> = () => {
             <FormLabel component="legend">Gender</FormLabel>
             <RadioGroup
               name="information.gender"
-              value={values.information.gender}
+              value={values.information?.gender}
               onChange={handleChange}
             >
               {Object.keys(Gender).map((key) => (
@@ -137,13 +119,14 @@ const RegisterPage: React.FC<any> = () => {
           </FormControl>
           <Stack direction={"column-reverse"} spacing={2}>
             <Button
+              onClick={() => navigate("/login")}
               variant="outlined"
               disabled={isSubmitting}
               color="primary"
               type="button"
               fullWidth
             >
-              CANCEL
+              LOGIN
             </Button>
             <Button
               sx={{

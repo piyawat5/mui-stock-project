@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import * as React from "react";
 import "./MyDatepicker.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -7,8 +7,8 @@ import { TextField } from "@mui/material";
 import { Portal } from "react-overlays";
 
 type props = {
-  handleDate: (date: Date | null) => void;
-  value: Date | null;
+  handleDate: (date: Date | null | undefined) => void;
+  value: Date | null | undefined;
 };
 
 const MyDatepicker: React.FC<props> = ({ handleDate, value }) => {
@@ -27,16 +27,24 @@ const MyDatepicker: React.FC<props> = ({ handleDate, value }) => {
         dropdownMode="select"
         autoComplete="off"
         dateFormat="dd/MM/yyyy"
-        placeholderText="Date of birth"
+        placeholderText="Date of birth *"
         wrapperClassName="date-picker"
         maxDate={new Date()}
         selected={value}
         onChange={(date) => handleDate(date)}
-        className="my-datepicker"
         calendarClassName="my-datepicker-calendar"
         popperContainer={CalendarContainer}
         dayClassName={(date) => (date.getDay() === 0 ? "sunday" : null)}
-        customInput={<TextField fullWidth></TextField>}
+        customInput={
+          <TextField
+            InputProps={{
+              classes: {
+                input: "custom-datepicker-input", // Add the custom CSS class here
+              },
+            }}
+            fullWidth
+          ></TextField>
+        }
         required
       />
     </div>

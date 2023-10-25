@@ -2,7 +2,11 @@
   width: 100%;
 }
 
-.popper-class {
-  position: absolute;
-  z-index: 9999;
+/* MyDatepicker.css */
+.custom-datepicker-input::placeholder {
+  color: rgba(
+    0,
+    0,
+    0
+  ) !important; /* Change this to your desired placeholder color */
 }
