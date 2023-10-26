@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, FormikProps } from "formik";
-import axios from "axios";
 import {
   Box,
   Button,
@@ -19,6 +18,10 @@ import {
 import { CSSProperties } from "react";
 // import MyDatepicker from "../../features/MyDatepicker";
 import { Account } from "../../types/account.type";
+import { httpClient } from "../../../utils/httpclient";
+import { server } from "../../../Constants";
+import { useDispatch, useSelector } from "react-redux";
+import { RootReducers } from "../../../reducers";
 
 // type RegisterPageProps = {
 
@@ -26,6 +29,10 @@ import { Account } from "../../types/account.type";
 
 const RegisterPage: React.FC<any> = () => {
   const navigate = useNavigate();
+  const registerReducer = useSelector(
+    (state: RootReducers) => state.registerReducer
+  );
+  const dispatch = useDispatch();
   const initial: Account = {
     username: "",
     password: "",
@@ -156,8 +163,8 @@ const RegisterPage: React.FC<any> = () => {
             </Typography>
             <Formik
               onSubmit={async (value, { setSubmitting }) => {
-                const register = await axios.post(
-                  "http://localhost:8085/api/v2/authen/register",
+                const register = await httpClient.post(
+                  server.REGISTER_URL,
                   value
                 );
                 alert(

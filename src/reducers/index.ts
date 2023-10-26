@@ -1,11 +1,10 @@
 import { combineReducers } from "redux";
-import someReducer, { SomeState } from "./someReducer";
-
+import registerReducer, { RegisterState } from "./register.reducer";
 
 export default combineReducers({
-    someReducer: someReducer
+    registerReducer: registerReducer
 })
 
 export interface RootReducers {
-    someReducer: SomeState;
+    registerReducer: RegisterState
 }
