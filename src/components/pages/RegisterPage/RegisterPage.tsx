@@ -164,7 +164,9 @@ const RegisterPage: React.FC<any> = () => {
             <Formik
               initialValues={initial}
               onSubmit={async (value, { setSubmitting }) => {
-                dispatch(actions.register(value) as any);
+                dispatch(
+                  actions.register(value, (path) => navigate(path)) as any
+                );
                 setSubmitting(false);
               }}
             >

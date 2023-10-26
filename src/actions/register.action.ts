@@ -17,7 +17,7 @@ export const setFailRegister = () => ({
 })
 
 
-export function register(account: Account) {
+export function register(account: Account, navigate: (path: string) => void) {
     return async (dispatch: any) => {
         try {
             // is fetching
@@ -28,6 +28,7 @@ export function register(account: Account) {
             if (res.data.result === 'ok') {
                 dispatch(setSuccessRegister(res.data))
                 alert('Register successfully')
+                navigate('/login')
             } else {
                 alert('Opps duplicate username')
                 dispatch(setFailRegister())
