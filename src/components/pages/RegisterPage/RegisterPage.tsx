@@ -18,10 +18,10 @@ import {
 import { CSSProperties } from "react";
 // import MyDatepicker from "../../features/MyDatepicker";
 import { Account } from "../../types/account.type";
-import { httpClient } from "../../../utils/httpclient";
-import { server } from "../../../Constants";
+
 import { useDispatch, useSelector } from "react-redux";
 import { RootReducers } from "../../../reducers";
+import * as actions from "../../../actions/register.action";
 
 // type RegisterPageProps = {
 
@@ -128,7 +128,7 @@ const RegisterPage: React.FC<any> = () => {
             <Button
               onClick={() => navigate("/login")}
               variant="outlined"
-              disabled={isSubmitting}
+              disabled={registerReducer.fetch}
               color="primary"
               type="button"
               fullWidth
@@ -140,7 +140,7 @@ const RegisterPage: React.FC<any> = () => {
                 color: "#fff",
               }}
               variant="contained"
-              disabled={isSubmitting}
+              disabled={registerReducer.fetch}
               color="primary"
               type="submit"
               fullWidth
@@ -162,22 +162,11 @@ const RegisterPage: React.FC<any> = () => {
               Register
             </Typography>
             <Formik
+              initialValues={initial}
               onSubmit={async (value, { setSubmitting }) => {
-                const register = await httpClient.post(
-                  server.REGISTER_URL,
-                  value
-                );
-                alert(
-                  JSON.stringify(
-                    register.data.result === "ok"
-                      ? "Register successfully"
-                      : "Opps somethings wrong , please try again."
-                  )
-                );
-
+                dispatch(actions.register(value) as any);
                 setSubmitting(false);
               }}
-              initialValues={initial}
             >
               {(props) => Form(props)}
             </Formik>
