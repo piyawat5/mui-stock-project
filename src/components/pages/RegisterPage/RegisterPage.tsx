@@ -20,7 +20,7 @@ import { CSSProperties } from "react";
 // import MyDatepicker from "../../features/MyDatepicker";
 import { Account } from "../../types/account.type";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootReducers } from "../../../reducers";
 import * as actions from "../../../actions/register.action";
 import { useAppDispatch } from "../../..";

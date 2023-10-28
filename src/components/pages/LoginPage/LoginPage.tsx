@@ -2,6 +2,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, FormikProps } from "formik";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -9,11 +10,13 @@ import {
   Stack,
   TextField,
   Typography,
-  useTheme,
 } from "@mui/material";
-import { CSSProperties, useState } from "react";
-import MyDatepicker from "../../features/MyDatepicker";
+import { CSSProperties } from "react";
 import { Account } from "../../types/account.type";
+import { useSelector } from "react-redux";
+import { RootReducers } from "../../../reducers";
+import { useAppDispatch } from "../../..";
+import * as tokenActions from "../../../actions/token.action";
 
 // type LoginProps = {
 
@@ -21,6 +24,8 @@ import { Account } from "../../types/account.type";
 
 const LoginPage: React.FC<any> = () => {
   const navigate = useNavigate();
+  const tokenReducer = useSelector((state: RootReducers) => state.token);
+  const dispatch = useAppDispatch();
   const initial: Account = {
     username: "",
     password: "",
@@ -60,11 +65,14 @@ const LoginPage: React.FC<any> = () => {
             fullWidth
             required
           ></TextField>
+          {tokenReducer.isFail && (
+            <Alert severity="error">Incorrect username</Alert>
+          )}
           <Stack direction={"column-reverse"} spacing={2}>
             <Button
               onClick={() => navigate("/register")}
               variant="outlined"
-              disabled={isSubmitting}
+              disabled={tokenReducer.isFetching}
               color="primary"
               type="button"
               fullWidth
@@ -76,7 +84,7 @@ const LoginPage: React.FC<any> = () => {
                 color: "#fff",
               }}
               variant="contained"
-              disabled={isSubmitting}
+              disabled={tokenReducer.isFetching}
               color="primary"
               type="submit"
               fullWidth
@@ -98,12 +106,14 @@ const LoginPage: React.FC<any> = () => {
               Login
             </Typography>
             <Formik
-              onSubmit={(value, { setSubmitting }) => {
-                alert(JSON.stringify(value));
-
-                setTimeout(() => {
-                  setSubmitting(false);
-                }, 1500);
+              onSubmit={(value) => {
+                dispatch(
+                  tokenActions.token(
+                    "LOGIN",
+                    (path) => navigate(path),
+                    value
+                  ) as any
+                );
               }}
               initialValues={initial}
             >

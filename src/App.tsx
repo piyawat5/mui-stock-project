@@ -15,6 +15,8 @@ import ReportPage from "./components/pages/ReportPage";
 import AboutUsPage from "./components/pages/AboutUsPage";
 import ProductDetailPage from "./components/pages/ProductDetailPage";
 import HomePage from "./components/pages/HomePage";
+import { useSelector } from "react-redux";
+import { RootReducers } from "./reducers";
 
 const drawerWidth = 240;
 
@@ -107,13 +109,18 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function App() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => setOpen((prev) => !prev);
+  const tokenRuducers = useSelector((state: RootReducers) => state.token);
 
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <Header open={open} onDrawerOpen={toggleDrawer}></Header>
-        <Menu open={open} onDrawerClose={toggleDrawer}></Menu>
+        {tokenRuducers.res && (
+          <>
+            <Header open={open} onDrawerOpen={toggleDrawer}></Header>
+            <Menu open={open} onDrawerClose={toggleDrawer}></Menu>
+          </>
+        )}
         <Main open={open}>
           <DrawerHeader />
           <Routes>
