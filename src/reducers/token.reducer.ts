@@ -2,14 +2,14 @@
 
 import { LOGIN_FAILED, LOGIN_FETCHING, LOGIN_SUCCESS, LOGOUT, } from "../Constants";
 
-export type Token = {
+export type TokenState = {
     isFetching: boolean;
     isSuccess: boolean;
     isFail: boolean;
     res: any;
 }
 
-const loginState: Token = {
+const loginState: TokenState = {
     isFetching: false,
     isFail: false,
     isSuccess: false,

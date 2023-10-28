@@ -24,7 +24,7 @@ import * as tokenActions from "../../../actions/token.action";
 
 const LoginPage: React.FC<any> = () => {
   const navigate = useNavigate();
-  const tokenReducer = useSelector((state: RootReducers) => state.token);
+  const tokenReducer = useSelector((state: RootReducers) => state.tokenReducer);
   const dispatch = useAppDispatch();
   const initial: Account = {
     username: "",
@@ -89,7 +89,7 @@ const LoginPage: React.FC<any> = () => {
               type="submit"
               fullWidth
             >
-              SUBMIT
+              LOGIN
             </Button>
           </Stack>
         </Stack>

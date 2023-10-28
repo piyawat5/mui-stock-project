@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
+import * as tokenActions from "./actions/token.action";
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,6 +19,10 @@ import ProductDetailPage from "./components/pages/ProductDetailPage";
 import HomePage from "./components/pages/HomePage";
 import { useSelector } from "react-redux";
 import { RootReducers } from "./reducers";
+import { useEffect } from "react";
+import { useAppDispatch } from ".";
+import PublicRoutes from "./router/public.routes";
+import ProtectedRoutes from "./router/protected.routes";
 
 const drawerWidth = 240;
 
@@ -109,7 +115,13 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function App() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => setOpen((prev) => !prev);
-  const tokenRuducers = useSelector((state: RootReducers) => state.token);
+  const tokenRuducers = useSelector(
+    (state: RootReducers) => state.tokenReducer
+  );
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(tokenActions.restoreLogin() as any);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -124,21 +136,28 @@ export default function App() {
         <Main open={open}>
           <DrawerHeader />
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/shopping" element={<ShoppingPage />} />
-            <Route
-              path="/shopping/product/:id"
-              element={<ProductDetailPage />}
-            />
-            <Route path="/stock/create" element={<StockCreatePage />} />
-            <Route path="/stock/edit/:id" element={<StockEditPage />} />
-            <Route path="/stock" element={<StockPage />} />
-            <Route path="/report" element={<ReportPage />} />
-            <Route path="/about-us" element={<AboutUsPage />} />
-            <Route path="/" element={<Navigate to="/login"></Navigate>} />
-            <Route path="*" element={<NotFound />} />
+            {/* Public routes */}
+            <Route path="/" element={<PublicRoutes></PublicRoutes>}>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+            </Route>
+
+            {/* protected routes */}
+            <Route path="/" element={<ProtectedRoutes></ProtectedRoutes>}>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/shopping" element={<ShoppingPage />} />
+              <Route
+                path="/shopping/product/:id"
+                element={<ProductDetailPage />}
+              />
+              <Route path="/stock/create" element={<StockCreatePage />} />
+              <Route path="/stock/edit/:id" element={<StockEditPage />} />
+              <Route path="/stock" element={<StockPage />} />
+              <Route path="/report" element={<ReportPage />} />
+              <Route path="/about-us" element={<AboutUsPage />} />
+              <Route path="/" element={<Navigate to="/login"></Navigate>} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
           </Routes>
         </Main>
       </Box>

@@ -1,5 +1,6 @@
 import { REGISTER_FAILED, REGISTER_FETCHING, REGISTER_SUCCESS, server } from "../Constants"
 import { Account } from "../components/types/account.type"
+import { RegisterResult } from "../components/types/authen.type"
 import { httpClient } from "../utils/httpclient"
 import { AnyAction, Dispatch } from "redux"
 
@@ -24,7 +25,7 @@ export function register(account: Account, navigate: (path: string) => void) {
             dispatch(setFetchingRegister())
 
             // post
-            let res = await httpClient.post(server.REGISTER_URL, account)
+            let res = await httpClient.post<RegisterResult>(server.REGISTER_URL, account)
             if (res.data.result === 'ok') {
                 dispatch(setSuccessRegister(res.data))
                 alert('Register successfully')

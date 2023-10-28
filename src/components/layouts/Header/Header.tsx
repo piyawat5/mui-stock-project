@@ -12,8 +12,6 @@ import { Badge, Box } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootReducers } from "../../../reducers";
 import * as tokenActions from "../../../actions/token.action";
 import { useAppDispatch } from "../../..";
 
@@ -47,7 +45,6 @@ type HeaderProp = {
 
 export default function Header({ open, onDrawerOpen }: HeaderProp) {
   const navigate = useNavigate();
-  const tokenReducers = useSelector((state: RootReducers) => state.token);
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const menuId = "Account-menu";

@@ -134,6 +134,7 @@ const RegisterPage: React.FC<any> = () => {
           )}
           <Stack direction={"column-reverse"} spacing={2}>
             <Button
+              onClick={() => navigate("/login")}
               variant="outlined"
               disabled={registerReducer.isFetching}
               color="primary"
