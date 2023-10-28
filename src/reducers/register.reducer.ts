@@ -3,26 +3,27 @@ import { REGISTER_FAILED, REGISTER_FETCHING, REGISTER_SUCCESS } from "../Constan
 /* eslint-disable import/no-anonymous-default-export */
 
 export type RegisterState = {
-    fetch: boolean;
-    success: boolean;
-    fail: boolean;
+    isFetching: boolean;
+    isSuccess: boolean;
+    isFail: boolean;
 }
 
 const registerState: RegisterState = {
-    fetch: false,
-    success: false,
-    fail: false,
+    isFetching: false,
+    isSuccess: false,
+    isFail: false,
 }
 
 export default (state = registerState, { type, payload }: any): RegisterState => {
     switch (type) {
 
         case REGISTER_FETCHING:
-            return { fetch: true, success: false, fail: false }
+            return { ...state, isFetching: true, isSuccess: false, isFail: false }
         case REGISTER_SUCCESS:
-            return { fetch: false, success: true, fail: false }
+            return { ...state, isFetching: false, isSuccess: true, isFail: false }
         case REGISTER_FAILED:
-            return { fetch: false, success: false, fail: true }
+            return { ...state, isFetching: false, isSuccess: false, isFail: true }
+
         default:
             return state
     }

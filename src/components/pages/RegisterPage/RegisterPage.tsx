@@ -2,6 +2,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, FormikProps } from "formik";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -22,6 +23,7 @@ import { Account } from "../../types/account.type";
 import { useDispatch, useSelector } from "react-redux";
 import { RootReducers } from "../../../reducers";
 import * as actions from "../../../actions/register.action";
+import { useAppDispatch } from "../../..";
 
 // type RegisterPageProps = {
 
@@ -32,7 +34,7 @@ const RegisterPage: React.FC<any> = () => {
   const registerReducer = useSelector(
     (state: RootReducers) => state.registerReducer
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const initial: Account = {
     username: "",
     password: "",
@@ -124,11 +126,16 @@ const RegisterPage: React.FC<any> = () => {
               ))}
             </RadioGroup>
           </FormControl> */}
+
+          {registerReducer.isFail && (
+            <Alert severity="error">
+              Duplicate username , please try again
+            </Alert>
+          )}
           <Stack direction={"column-reverse"} spacing={2}>
             <Button
-              onClick={() => navigate("/login")}
               variant="outlined"
-              disabled={registerReducer.fetch}
+              disabled={registerReducer.isFetching}
               color="primary"
               type="button"
               fullWidth
@@ -140,7 +147,7 @@ const RegisterPage: React.FC<any> = () => {
                 color: "#fff",
               }}
               variant="contained"
-              disabled={registerReducer.fetch}
+              disabled={registerReducer.isFetching}
               color="primary"
               type="submit"
               fullWidth

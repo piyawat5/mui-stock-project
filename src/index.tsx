@@ -9,13 +9,16 @@ import { Middleware, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
 import reducers from "./reducers";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 
 // redux
 export const middlewares: Middleware[] = [thunk];
 middlewares.push(logger);
-
 export const store = createStore(reducers, applyMiddleware(...middlewares));
+
+// fix error useDispatch type;
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

@@ -1,7 +1,7 @@
-import { log } from "console"
 import { REGISTER_FAILED, REGISTER_FETCHING, REGISTER_SUCCESS, server } from "../Constants"
 import { Account } from "../components/types/account.type"
 import { httpClient } from "../utils/httpclient"
+import { AnyAction, Dispatch } from "redux"
 
 export const setFetchingRegister = () => ({
     type: REGISTER_FETCHING,
@@ -18,7 +18,7 @@ export const setFailRegister = () => ({
 
 
 export function register(account: Account, navigate: (path: string) => void) {
-    return async (dispatch: any) => {
+    return async (dispatch: Dispatch<AnyAction>) => {
         try {
             // is fetching
             dispatch(setFetchingRegister())
