@@ -2,9 +2,12 @@
 import * as React from "react";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
-import { CSSProperties, useEffect, useState } from "react";
-import { httpClient } from "../../../utils/httpclient";
-import { imageUrl, server } from "../../../Constants";
+import { CSSProperties, useEffect } from "react";
+import { imageUrl } from "../../../Constants";
+import { useSelector } from "react-redux";
+import { RootReducers } from "../../../reducers";
+import * as stockActions from "../../../actions/stock.action";
+import { useAppDispatch } from "../../..";
 type StockPageProps = {
   //
 };
@@ -41,25 +44,21 @@ const columns: GridColDef[] = [
 ];
 
 const StockPage: React.FC<any> = () => {
-  const [rows, setRows] = useState<any[]>([]);
   const classes: { [key: string]: CSSProperties } = {
     dataGridBg: { backgroundColor: "#FFF" },
   };
-  async function getData() {
-    let res = await httpClient.get(server.PRODUCT_URL);
-    setRows([...res.data]);
-  }
-
+  const stockReducer = useSelector((state: RootReducers) => state.stockReducer);
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    getData();
+    dispatch(stockActions.getStock());
   }, []);
 
   return (
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
-        autoHeight
         sx={classes.dataGridBg}
-        rows={rows}
+        loading={stockReducer.isFetching}
+        rows={stockReducer.res}
         columns={columns}
         initialState={{
           pagination: {
@@ -69,7 +68,6 @@ const StockPage: React.FC<any> = () => {
           },
         }}
         pageSizeOptions={[5]}
-        checkboxSelection
         disableRowSelectionOnClick
       />
     </Box>
