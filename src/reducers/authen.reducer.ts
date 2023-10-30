@@ -2,21 +2,21 @@
 
 import { LOGIN_FAILED, LOGIN_FETCHING, LOGIN_SUCCESS, LOGOUT, } from "../Constants";
 
-export type TokenState = {
+export type AuthenState = {
     isFetching: boolean;
     isSuccess: boolean;
     isFail: boolean;
     res: any;
 }
 
-const loginState: TokenState = {
+const authenState: AuthenState = {
     isFetching: false,
     isFail: false,
     isSuccess: false,
     res: null,
 }
 
-export default (state = loginState, { type, payload }: any) => {
+export default (state = authenState, { type, payload }: any) => {
     switch (type) {
         case LOGIN_FETCHING:
             return { ...state, res: null, isFetching: true, isFail: false, isSuccess: false }

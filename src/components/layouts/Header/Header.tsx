@@ -12,7 +12,7 @@ import { Badge, Box } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
-import * as tokenActions from "../../../actions/token.action";
+import * as authenActions from "../../../actions/authen.action";
 import { useAppDispatch } from "../../..";
 
 const drawerWidth = 240;
@@ -84,7 +84,7 @@ export default function Header({ open, onDrawerOpen }: HeaderProp) {
         onClick={() => {
           handleMenuClose();
           dispatch(
-            tokenActions.token("LOGOUT", (path) => navigate(path)) as any
+            authenActions.authen("LOGOUT", (path) => navigate(path)) as any
           );
         }}
       >

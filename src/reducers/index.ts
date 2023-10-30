@@ -1,13 +1,13 @@
 import { combineReducers } from "redux";
 import registerReducer, { RegisterState } from "./register.reducer";
-import tokenReducer, { TokenState } from "./token.reducer"
+import authenReducer, { AuthenState } from "./authen.reducer"
 
 export default combineReducers({
     registerReducer: registerReducer,
-    tokenReducer: tokenReducer
+    authenReducer: authenReducer
 })
 
 export interface RootReducers {
     registerReducer: RegisterState;
-    tokenReducer: TokenState
+    authenReducer: AuthenState
 }

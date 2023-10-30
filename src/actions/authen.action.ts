@@ -18,7 +18,7 @@ export const logout = () => ({
     type: LOGOUT,
 })
 
-export const token = (action: 'LOGIN' | 'LOGOUT', navigate: (path: string) => void, payload?: Account,) => {
+export const authen = (action: 'LOGIN' | 'LOGOUT', navigate: (path: string) => void, payload?: Account,) => {
     return async (dispatch: any) => {
         if (action === 'LOGIN') {
             try {
@@ -54,6 +54,7 @@ export const restoreLogin = () => {
 
         const token = localStorage.getItem(TOKEN)
         if (token) {
+
             dispatch(successLogin({ token, message: 'Login successfully', result: OK }))
         } else {
             dispatch(logout())

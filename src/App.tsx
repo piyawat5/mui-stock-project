@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
-import * as tokenActions from "./actions/token.action";
+import * as authenActions from "./actions/authen.action";
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Header from "./components/layouts/Header";
 import Menu from "./components/layouts/Menu";
-import { Link, Navigate, Route, Routes } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import LoginPage from "./components/pages/LoginPage";
 import RegisterPage from "./components/pages/RegisterPage";
 import ShoppingPage from "./components/pages/ShoppingPage";
@@ -115,19 +115,23 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function App() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => setOpen((prev) => !prev);
-  const tokenRuducers = useSelector(
-    (state: RootReducers) => state.tokenReducer
+  const authenReducer = useSelector(
+    (state: RootReducers) => state.authenReducer
   );
+  const location = useLocation();
+  const currentPath = location.pathname;
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(tokenActions.restoreLogin() as any);
+    //take currentPath to handle refreshing web
+    localStorage.setItem("currentPath", currentPath);
+    dispatch(authenActions.restoreLogin() as any);
   }, []);
 
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        {tokenRuducers.res && (
+        {authenReducer.res && (
           <>
             <Header open={open} onDrawerOpen={toggleDrawer}></Header>
             <Menu open={open} onDrawerClose={toggleDrawer}></Menu>
@@ -158,7 +162,7 @@ export default function App() {
               <Route path="/stock" element={<StockPage />} />
               <Route path="/report" element={<ReportPage />} />
               <Route path="/about-us" element={<AboutUsPage />} />
-              <Route path="/" element={<Navigate to="/login"></Navigate>} />
+              <Route path="/" element={<Navigate to="/home"></Navigate>} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

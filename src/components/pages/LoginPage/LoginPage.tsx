@@ -16,7 +16,7 @@ import { Account } from "../../types/account.type";
 import { useSelector } from "react-redux";
 import { RootReducers } from "../../../reducers";
 import { useAppDispatch } from "../../..";
-import * as tokenActions from "../../../actions/token.action";
+import * as authenActions from "../../../actions/authen.action";
 
 // type LoginProps = {
 
@@ -24,7 +24,9 @@ import * as tokenActions from "../../../actions/token.action";
 
 const LoginPage: React.FC<any> = () => {
   const navigate = useNavigate();
-  const tokenReducer = useSelector((state: RootReducers) => state.tokenReducer);
+  const authenReducer = useSelector(
+    (state: RootReducers) => state.authenReducer
+  );
   const dispatch = useAppDispatch();
   const initial: Account = {
     username: "",
@@ -65,14 +67,14 @@ const LoginPage: React.FC<any> = () => {
             fullWidth
             required
           ></TextField>
-          {tokenReducer.isFail && (
+          {authenReducer.isFail && (
             <Alert severity="error">Incorrect username</Alert>
           )}
           <Stack direction={"column-reverse"} spacing={2}>
             <Button
               onClick={() => navigate("/register")}
               variant="outlined"
-              disabled={tokenReducer.isFetching}
+              disabled={authenReducer.isFetching}
               color="primary"
               type="button"
               fullWidth
@@ -84,7 +86,7 @@ const LoginPage: React.FC<any> = () => {
                 color: "#fff",
               }}
               variant="contained"
-              disabled={tokenReducer.isFetching}
+              disabled={authenReducer.isFetching}
               color="primary"
               type="submit"
               fullWidth
@@ -108,7 +110,7 @@ const LoginPage: React.FC<any> = () => {
             <Formik
               onSubmit={(value) => {
                 dispatch(
-                  tokenActions.token(
+                  authenActions.authen(
                     "LOGIN",
                     (path) => navigate(path),
                     value
