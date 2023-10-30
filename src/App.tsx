@@ -133,7 +133,7 @@ export default function App() {
             <Menu open={open} onDrawerClose={toggleDrawer}></Menu>
           </>
         )}
-        <Main open={open}>
+        <Main sx={{ overflowX: "hidden" }} open={open}>
           <DrawerHeader />
           <Routes>
             {/* Public routes */}
