@@ -140,6 +140,9 @@ export default function App() {
             <Route path="/" element={<PublicRoutes></PublicRoutes>}>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+
+              <Route path="/" element={<Navigate to="/login"></Navigate>} />
+              <Route path="*" element={<NotFound />} />
             </Route>
 
             {/* protected routes */}
