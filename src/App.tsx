@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Header from "./components/layouts/Header";
 import Menu from "./components/layouts/Menu";
-import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Link, Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "./components/pages/LoginPage";
 import RegisterPage from "./components/pages/RegisterPage";
 import ShoppingPage from "./components/pages/ShoppingPage";
@@ -118,12 +118,8 @@ export default function App() {
   const authenReducer = useSelector(
     (state: RootReducers) => state.authenReducer
   );
-  const location = useLocation();
-  const currentPath = location.pathname;
   const dispatch = useAppDispatch();
   useEffect(() => {
-    //take currentPath to handle refreshing web
-    localStorage.setItem("currentPath", currentPath);
     dispatch(authenActions.restoreLogin() as any);
   }, []);
 
