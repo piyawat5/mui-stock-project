@@ -25,10 +25,9 @@ export const getStock = () => {
             const res = await httpClient.get(server.PRODUCT_URL)
             setTimeout(() => {
                 dispatch(stockSuccess(res.data))
-            }, 1000);
+            }, 500);
         } catch (error) {
             dispatch(stockFail)
         }
     }
 }
-

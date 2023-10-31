@@ -1,8 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 import * as React from "react";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import { Box, IconButton, Stack, Typography } from "@mui/material";
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridToolbarQuickFilter,
+} from "@mui/x-data-grid";
+import {
+  Box,
+  IconButton,
+  ListItemButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { CSSProperties, useEffect } from "react";
 import { imageUrl } from "../../../Constants";
 import { useSelector } from "react-redux";
@@ -14,6 +25,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Moment from "react-moment";
+import { Add } from "@mui/icons-material";
+import { Fab } from "@mui/material";
+import { Link } from "react-router-dom";
 
 // type StockPageProps = {
 //   //
@@ -124,13 +138,38 @@ const StockPage: React.FC<any> = () => {
     dispatch(stockActions.getStock());
   }, []);
 
+  function QuickSearchToolbar() {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          px: 4,
+          py: 2,
+        }}
+      >
+        <GridToolbarQuickFilter />
+        <Box sx={{ flexGrow: 1 }}></Box>
+        <Fab
+          to="/stock/create"
+          component={Link}
+          sx={{ color: "white" }}
+          color="primary"
+          aria-label="add"
+        >
+          <Add />
+        </Fab>
+      </Box>
+    );
+  }
+
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
+    <Box sx={{ height: "70vh", width: "100%" }}>
       <DataGrid
         sx={classes.dataGridBg}
         loading={stockReducer.isFetching}
         rows={stockReducer.res}
         columns={columns}
+        slots={{ toolbar: QuickSearchToolbar }}
         initialState={{
           pagination: {
             paginationModel: {
