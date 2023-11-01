@@ -1,11 +1,12 @@
 import { STOCK_FAILED, STOCK_FETCHING, STOCK_SUCCESS } from "../Constants";
+import { FormData } from "../components/types/stock.type";
 
 /* eslint-disable import/no-anonymous-default-export */
 export type StockState = {
     isFetching: boolean;
     isSuccess: boolean;
     isFail: boolean;
-    res: any[];
+    res: FormData[];
 }
 const stockState = {
 
