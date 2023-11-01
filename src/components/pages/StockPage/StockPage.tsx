@@ -147,6 +147,20 @@ const StockPage: React.FC<any> = () => {
     }
   }, [keyword]);
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setKeyword("");
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <Box
