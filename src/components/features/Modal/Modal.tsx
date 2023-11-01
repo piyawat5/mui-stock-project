@@ -1,15 +1,29 @@
 import React, { useState, useRef, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
 import "./Modal.css";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
+
+export enum ModalRoleEnum {
+  general = "GENERAL",
+  confirmDelete = "CONFIRM_DELETE",
+  confirm = "CONFIRM",
+}
 
 interface ModalProps {
   isOpen: boolean;
+  role?: ModalRoleEnum;
   onClose: () => void;
+  onSubmit?: () => void;
   children: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  role = ModalRoleEnum.general,
+  onSubmit = () => {},
+  children,
+}) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -35,9 +49,26 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       <div className="modal">
         <div className="modal-content" ref={modalRef}>
           {children}
-          <Button variant="outlined" onClick={onClose}>
-            Close
-          </Button>
+          <Box
+            sx={{ display: "flex", gap: 2, justifyContent: "center", mt: 4 }}
+          >
+            <Button variant="outlined" onClick={onClose}>
+              Close
+            </Button>
+            {role === ModalRoleEnum.confirmDelete && (
+              <Button
+                color="error"
+                sx={{ color: "white" }}
+                variant="contained"
+                onClick={() => {
+                  onSubmit();
+                  onClose();
+                }}
+              >
+                DELETE
+              </Button>
+            )}
+          </Box>
         </div>
       </div>
     </CSSTransition>
