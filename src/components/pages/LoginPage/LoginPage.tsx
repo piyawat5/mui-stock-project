@@ -110,11 +110,7 @@ const LoginPage: React.FC<any> = () => {
             <Formik
               onSubmit={(value) => {
                 dispatch(
-                  authenActions.authen(
-                    "LOGIN",
-                    (path) => navigate(path),
-                    value
-                  ) as any
+                  authenActions.authen("LOGIN", (path) => navigate(path), value)
                 );
               }}
               initialValues={initial}

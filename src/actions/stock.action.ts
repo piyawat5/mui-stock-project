@@ -15,7 +15,7 @@ export const stockFail = () => ({
 
 })
 
-export const getStock = () => {
+export const getStock = (keyword?: string) => {
     return async (dispatch: any) => {
         try {
             //fetching...
@@ -23,9 +23,24 @@ export const getStock = () => {
 
             //success
             const res = await httpClient.get(server.PRODUCT_URL)
-            setTimeout(() => {
-                dispatch(stockSuccess(res.data))
-            }, 500);
+            if (keyword) {
+                const filter = res.data.filter((item: any) => {
+                    const filterName = item.name.toLowerCase().includes(keyword.toLowerCase())
+                    const filterId = item.id.toString().includes(keyword.toString())
+                    const filterPrice = item.price.toString().includes(keyword.toString())
+                    const filterStock = item.stock.toString().includes(keyword.toString())
+                    if (filterId || filterPrice || filterStock || filterName) {
+                        return true;
+                    }
+                    return false;
+                })
+                dispatch(stockSuccess(filter))
+            } else {
+
+                setTimeout(() => {
+                    dispatch(stockSuccess(res.data))
+                }, 500);
+            }
         } catch (error) {
             dispatch(stockFail)
         }

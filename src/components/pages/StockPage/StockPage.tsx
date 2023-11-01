@@ -7,14 +7,8 @@ import {
   GridRenderCellParams,
   GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
-import {
-  Box,
-  IconButton,
-  ListItemButton,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { CSSProperties, useEffect } from "react";
+import { Box, IconButton, Stack, TextField, Typography } from "@mui/material";
+import { CSSProperties, useEffect, useState } from "react";
 import { imageUrl } from "../../../Constants";
 import { useSelector } from "react-redux";
 import { RootReducers } from "../../../reducers";
@@ -28,6 +22,7 @@ import Moment from "react-moment";
 import { Add } from "@mui/icons-material";
 import { Fab } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useDebounce } from "@react-hook/debounce";
 
 // type StockPageProps = {
 //   //
@@ -130,24 +125,48 @@ const columns: GridColDef[] = [
 
 const StockPage: React.FC<any> = () => {
   const classes: { [key: string]: CSSProperties } = {
-    dataGridBg: { backgroundColor: "#FFF" },
+    dataGridBg: {
+      backgroundColor: "#FFF",
+      borderRadius: "0 0 4px 4px",
+      borderTop: "none",
+    },
   };
   const stockReducer = useSelector((state: RootReducers) => state.stockReducer);
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(stockActions.getStock());
-  }, []);
+  const [keyword, setKeyword] = useState<string>("");
 
-  function QuickSearchToolbar() {
-    return (
+  useEffect(() => {
+    if (keyword !== "") {
+      const getData = setTimeout(() => {
+        dispatch(stockActions.getStock(keyword));
+      }, 1000);
+
+      return () => clearTimeout(getData);
+    } else {
+      dispatch(stockActions.getStock());
+    }
+  }, [keyword]);
+
+  return (
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
       <Box
         sx={{
+          bgcolor: "white",
+          borderRadius: "4px 4px 0 0",
           display: "flex",
           px: 4,
           py: 2,
         }}
       >
-        <GridToolbarQuickFilter />
+        <TextField
+          label="Search"
+          variant="standard"
+          sx={{ height: "20px" }}
+          value={keyword}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setKeyword(e.target.value);
+          }}
+        ></TextField>
         <Box sx={{ flexGrow: 1 }}></Box>
         <Fab
           to="/stock/create"
@@ -159,27 +178,23 @@ const StockPage: React.FC<any> = () => {
           <Add />
         </Fab>
       </Box>
-    );
-  }
-
-  return (
-    <Box sx={{ height: "70vh", width: "100%" }}>
-      <DataGrid
-        sx={classes.dataGridBg}
-        loading={stockReducer.isFetching}
-        rows={stockReducer.res}
-        columns={columns}
-        slots={{ toolbar: QuickSearchToolbar }}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
+      <Box sx={{ height: "60vh", width: "100%" }}>
+        <DataGrid
+          sx={classes.dataGridBg}
+          loading={stockReducer.isFetching}
+          rows={stockReducer.res}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
             },
-          },
-        }}
-        pageSizeOptions={[5]}
-        disableRowSelectionOnClick
-      />
+          }}
+          pageSizeOptions={[5]}
+          disableRowSelectionOnClick
+        />
+      </Box>
     </Box>
   );
 };
