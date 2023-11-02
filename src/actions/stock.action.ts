@@ -1,5 +1,5 @@
 import { STOCK_FAILED, STOCK_FETCHING, STOCK_SUCCESS, server } from "../Constants"
-import { FormData } from "../components/types/stock.type"
+import { Product } from "../components/types/stock.type"
 import { httpClient } from "../utils/httpclient"
 
 export const stockFetching = () => ({
@@ -7,7 +7,7 @@ export const stockFetching = () => ({
 })
 
 
-export const stockSuccess = (payload: FormData[]) => ({
+export const stockSuccess = (payload: Product[]) => ({
     type: STOCK_SUCCESS,
     payload
 })
@@ -23,9 +23,9 @@ export const getStock = (keyword?: string) => {
             dispatch(stockFetching())
 
             //success
-            const res = await httpClient.get<FormData[]>(server.PRODUCT_URL)
+            const res = await httpClient.get<Product[]>(server.PRODUCT_URL)
             if (keyword) {
-                const filter = res.data.filter((item: FormData) => {
+                const filter = res.data.filter((item: Product) => {
                     const filterName = item.name.toLowerCase().includes(keyword.toLowerCase())
                     const filterId = item.id?.toString().includes(keyword.toString())
                     const filterPrice = item.price.toString().includes(keyword.toString())

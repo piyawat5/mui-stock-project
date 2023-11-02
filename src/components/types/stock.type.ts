@@ -1,4 +1,4 @@
-export interface FormData {
+export interface Product {
     id?: number;
     name: string;
     image?: string;
@@ -6,4 +6,6 @@ export interface FormData {
     stock: number;
     createdAt?: Date;
     updatedAt?: Date;
+    file?: Blob;
+    file_obj?: URL | string;
 }
