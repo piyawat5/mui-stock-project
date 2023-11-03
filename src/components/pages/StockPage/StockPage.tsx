@@ -3,9 +3,12 @@
 import * as React from "react";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import {
+  Alert,
   Box,
   IconButton,
   Skeleton,
+  Snackbar,
+  SnackbarOrigin,
   Stack,
   TextField,
   Typography,
@@ -35,7 +38,18 @@ enum RoleEnum {
   confirmModal = "CONFIRM_MODAL",
 }
 
+interface State extends SnackbarOrigin {
+  open: boolean;
+}
+
 const StockPage: React.FC<any> = () => {
+  const [toast, setToast] = React.useState<State>({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = toast;
+
   const classes: { [key: string]: CSSProperties } = {
     dataGridBg: {
       backgroundColor: "#FFF",
@@ -300,6 +314,16 @@ const StockPage: React.FC<any> = () => {
           )}
         </Modal>
       )}
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={stockReducer.isAfterActions ? true : false}
+        key={vertical + horizontal}
+        message="product has been deleted"
+      >
+        <Alert severity="success" sx={{ width: "100%" }}>
+          Delete successfully!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

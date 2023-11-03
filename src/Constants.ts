@@ -14,6 +14,7 @@ export const STOCK_FETCHING = "STOCK_FETCHING";
 export const STOCK_SUCCESS = "STOCK_SUCCESS";
 export const STOCK_FAILED = "STOCK_FAILED";
 export const STOCK_CLEAR = 'STOCK_CLEAR'
+export const STOCK_AFTER_ACTIONS = 'STOCK_AFTER_ACTIONS'
 
 // Stock Edit Page
 export const STOCK_EDIT_FETCHING = "STOCK_EDIT_FETCHING";

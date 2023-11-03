@@ -14,7 +14,7 @@ export const stockIdFail = () => ({
     type: STOCK_EDIT_FAILED,
 })
 
-export const putStock = (formData: Product, navigate: (path: string) => void) => {
+export const putStock = (formData: FormData, navigate: (path: string) => void) => {
     return async (dispatch: any) => {
         try {
             if (formData) {

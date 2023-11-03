@@ -1,4 +1,4 @@
-import { STOCK_FAILED, STOCK_FETCHING, STOCK_SUCCESS, server } from "../Constants"
+import { STOCK_AFTER_ACTIONS, STOCK_FAILED, STOCK_FETCHING, STOCK_SUCCESS, server } from "../Constants"
 import { Product } from "../components/types/stock.type"
 import { httpClient } from "../utils/httpclient"
 
@@ -7,14 +7,17 @@ export const stockFetching = () => ({
 })
 
 
-export const stockSuccess = (payload: Product[]) => ({
+export const stockSuccess = (product: Product[]) => ({
     type: STOCK_SUCCESS,
-    payload
+    product
 })
 export const stockFail = () => ({
     type: STOCK_FAILED,
 
 })
+export const stockAfterActions = (product: Product[], action: string) => {
+    return { type: STOCK_AFTER_ACTIONS, product, action }
+}
 
 export const getStock = (keyword?: string) => {
     return async (dispatch: any) => {
@@ -75,7 +78,10 @@ export const deleteStock = (id?: number,) => {
             //Success
             await httpClient.delete(`${server.PRODUCT_URL}/${id}`)
             const res = await httpClient.get(server.PRODUCT_URL)
-            dispatch(stockSuccess(res.data))
+            dispatch(stockAfterActions(res.data, 'DELETE'))
+            setTimeout(() => {
+                dispatch(stockSuccess(res.data,))
+            }, 2000);
         } catch (error) {
             dispatch(stockFail())
         }
