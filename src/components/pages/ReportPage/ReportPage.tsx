@@ -1,32 +1,69 @@
-import * as React from "react";
-import Modal from "../../features/Modal";
-import { Button } from "@mui/material";
-
-type ReportPageProps = {
-  //
-};
+import React from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+import { Box } from "@mui/material";
 
 const ReportPage: React.FC<any> = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+  );
 
-  const toggle = () => {
-    setIsOpen((prev) => !prev);
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: "Chart.js Bar Chart",
+      },
+    },
   };
+
+  const labels = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+  ];
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Dataset 1",
+        data: [1000, 2000, 1444, 2424, 1243, 1234, 1234],
+        backgroundColor: "rgba(255, 99, 132)",
+      },
+      {
+        label: "Dataset 2",
+        data: [2000, 1800, 3544, 2424, 1643, 3234, 1234],
+        backgroundColor: "rgba(53, 162, 235)",
+      },
+    ],
+  };
+
   return (
-    <div>
-      <Button
-        sx={{ color: "white" }}
-        variant="contained"
-        onClick={toggle}
-        type="button"
-      >
-        Open Modal
-      </Button>
-      <Modal isOpen={isOpen} onClose={toggle}>
-        <h1 className="modal-title">Modal Content</h1>
-        <p className="modal-description">This is the content of the modal.</p>
-      </Modal>
-    </div>
+    <Box sx={{ width: "80%", bgcolor: "white", p: 2 }}>
+      <Bar options={options} data={data} />
+    </Box>
   );
 };
 

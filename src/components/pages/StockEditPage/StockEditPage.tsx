@@ -46,16 +46,9 @@ const StockEditPage: React.FC<any> = () => {
       );
     }
   };
-  // let initial = {
-  //   name: "",
-  //   price: 0,
-  //   stock: 0,
-  //   image: "",
-  // } as Product;
 
   React.useEffect(() => {
     match?.params.id && dispatch(stockIdActions.getById(match?.params.id));
-    // initial = stockIdReducers.res as Product;
   }, []);
 
   const initialValues: Product = { name: "Loading...", stock: 0, price: 0 };
@@ -168,7 +161,6 @@ const StockEditPage: React.FC<any> = () => {
                       multiple
                       accept="image/*"
                       id="files"
-                      required
                     ></input>
                   </Stack>
                   <Stack direction={"column-reverse"} spacing={2}>
