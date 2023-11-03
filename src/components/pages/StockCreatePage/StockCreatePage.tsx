@@ -7,12 +7,18 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { Form, Formik, FormikProps, Field } from "formik";
+import {
+  Form,
+  Formik,
+  FormikProps,
+  Field,
+  FormikErrors,
+  FormikValues,
+} from "formik";
 import * as React from "react";
-import { CSSProperties, useRef, useState } from "react";
+import { useState } from "react";
 import { Product } from "../../types/stock.type";
 import { TextField } from "formik-material-ui";
-import { ThemeContext } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootReducers } from "../../../reducers";
@@ -29,9 +35,8 @@ const StockCreatePage: React.FC<any> = () => {
     (state: RootReducers) => state.stockReducer
   );
   const dispatch = useAppDispatch();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedImageURL, setSelectedImageURL] = useState<string | null>(null);
-  const showPreviewImage = (values: any) => {
+  const showPreviewImage = () => {
     if (selectedImageURL) {
       return <img src={selectedImageURL} style={{ height: 100 }}></img>;
     }
@@ -46,6 +51,15 @@ const StockCreatePage: React.FC<any> = () => {
     <>
       <Box>
         <Formik
+          validate={(values: FormikValues) => {
+            let errors: FormikErrors<FormikValues> = {};
+            if (!values.name) errors.name = "Enter name";
+            if (values.price < 1)
+              errors.price = "Min price is not lower than 1";
+            if (values.stock < 1)
+              errors.stock = "Min stock is not lower than 1";
+            return errors;
+          }}
           onSubmit={(values, { setSubmitting }) => {
             let formData = new FormData();
             formData.append("name", values.name);
@@ -103,13 +117,14 @@ const StockCreatePage: React.FC<any> = () => {
                     direction={"row"}
                     alignItems={"center"}
                   >
-                    <div style={{ margin: 16 }}>
-                      {showPreviewImage(props.values)}
-                    </div>
-                    <img
-                      src={`${process.env.PUBLIC_URL}/images/camera.png`}
-                      style={{ width: 60, height: 60 }}
-                    ></img>
+                    {selectedImageURL ? (
+                      <div style={{ margin: 16 }}>{showPreviewImage()}</div>
+                    ) : (
+                      <img
+                        src={`${process.env.PUBLIC_URL}/images/camera.png`}
+                        style={{ width: 60, height: 60 }}
+                      ></img>
+                    )}
                     <span style={{ color: "#00B0CD", marginLeft: 10 }}>
                       Add Picture
                     </span>
@@ -119,10 +134,6 @@ const StockCreatePage: React.FC<any> = () => {
                         e.preventDefault();
                         props.setFieldValue("file", e.target.files[0]);
                         if (e.target.files.length !== 0) {
-                          props.setFieldValue(
-                            "file_obj",
-                            URL.createObjectURL(e.target.files[0])
-                          );
                           setSelectedImageURL(
                             URL.createObjectURL(e.target.files[0])
                           );
@@ -135,8 +146,7 @@ const StockCreatePage: React.FC<any> = () => {
                       multiple
                       accept="image/*"
                       id="files"
-                      style={{ padding: "20px 0 0 20px" }}
-                      ref={fileInputRef}
+                      required
                     ></input>
                   </Stack>
                   <Stack direction={"column-reverse"} spacing={2}>

@@ -289,10 +289,14 @@ const StockPage: React.FC<any> = () => {
               <Box sx={{ my: 2 }}></Box>
             </>
           ) : (
-            <>
+            <Box sx={{ textAlign: "center" }}>
               <h1 className="modal-title">Confirm delete</h1>
-              <Box>Do you want to delete {stockIdReducer.res?.id} ?</Box>
-            </>
+              <img
+                src={`${imageUrl}/images/${stockIdReducer.res?.image}`}
+                style={{ width: 100, borderRadius: "5%" }}
+              ></img>
+              <Box>Do you want to delete {stockIdReducer.res?.name} ?</Box>
+            </Box>
           )}
         </Modal>
       )}

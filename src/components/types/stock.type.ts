@@ -7,5 +7,4 @@ export interface Product {
     createdAt?: Date;
     updatedAt?: Date;
     file?: Blob;
-    file_obj?: URL | string;
 }
