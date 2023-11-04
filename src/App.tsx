@@ -98,7 +98,7 @@ const theme = createTheme({
       main: "#F0FF42",
     },
     background: {
-      default: "rgb(201, 201, 201);",
+      default: "rgb(222, 222, 222);",
     },
   },
 });
