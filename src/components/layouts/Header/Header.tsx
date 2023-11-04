@@ -105,7 +105,10 @@ export default function Header({ open, onDrawerOpen }: HeaderProp) {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap component="div">
-          Welcome to plant shop
+          Welcome to plant shop V.{process.env.REACT_APP_VERSION}{" "}
+          {process.env.REACT_APP_IS_PRODUCTION === "0"
+            ? "Development"
+            : "Production"}
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ display: { xs: "flex" } }}>

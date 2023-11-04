@@ -13,7 +13,11 @@ import { Provider, useDispatch } from "react-redux";
 
 // redux
 export const middlewares: Middleware[] = [thunk];
-middlewares.push(logger);
+
+if (process.env.REACT_APP_IS_PRODUCTION !== "1") {
+  middlewares.push(logger);
+}
+
 export const store = createStore(reducers, applyMiddleware(...middlewares));
 
 // fix error useDispatch type;

@@ -1,7 +1,6 @@
 import axios from "axios";
 import join from "url-join";
 import {
-  server,
   apiUrl,
   NOT_CONNECT_NETWORK,
   NETWORK_CONNECTION_MESSAGE,

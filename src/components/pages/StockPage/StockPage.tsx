@@ -8,7 +8,6 @@ import {
   IconButton,
   Skeleton,
   Snackbar,
-  SnackbarOrigin,
   Stack,
   TextField,
   Typography,
@@ -30,26 +29,12 @@ import { Fab } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import Modal, { ModalRoleEnum } from "../../features/Modal/Modal";
 
-// type StockPageProps = {
-//   //
-// };
 enum RoleEnum {
   modal = "MODAL",
   confirmModal = "CONFIRM_MODAL",
 }
 
-interface State extends SnackbarOrigin {
-  open: boolean;
-}
-
 const StockPage: React.FC<any> = () => {
-  const [toast, setToast] = React.useState<State>({
-    open: false,
-    vertical: "top",
-    horizontal: "center",
-  });
-  const { vertical, horizontal, open } = toast;
-
   const classes: { [key: string]: CSSProperties } = {
     dataGridBg: {
       backgroundColor: "#FFF",
@@ -315,9 +300,8 @@ const StockPage: React.FC<any> = () => {
         </Modal>
       )}
       <Snackbar
-        anchorOrigin={{ vertical, horizontal }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={stockReducer.isAfterActions ? true : false}
-        key={vertical + horizontal}
         message="product has been deleted"
       >
         <Alert severity="success" sx={{ width: "100%" }}>

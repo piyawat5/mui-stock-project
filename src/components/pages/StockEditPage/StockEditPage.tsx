@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 import {
   Box,
@@ -18,10 +19,6 @@ import { RootReducers } from "../../../reducers";
 import { useAppDispatch } from "../../..";
 import * as stockIdActions from "../../../actions/stockId.action";
 import { imageUrl } from "../../../Constants";
-
-type StockEditPageProps = {
-  //
-};
 
 const StockEditPage: React.FC<any> = () => {
   const match = useMatch("/stock/edit/:id");
