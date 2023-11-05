@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { Product } from "../../types/stock.type";
 
 type PaginationProps = {
     //
 };
 
-const usePagination = (data: any[], itemsPerPage: number) => {
+const usePagination = (data: Product[], itemsPerPage: number) => {
     const [currentPage, setCurrentPage] = useState(1);
     const maxPage = Math.ceil(data.length / itemsPerPage);
 

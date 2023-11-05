@@ -29,11 +29,6 @@ import { Fab } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import Modal, { ModalRoleEnum } from "../../features/Modal/Modal";
 
-enum RoleEnum {
-  modal = "MODAL",
-  confirmModal = "CONFIRM_MODAL",
-}
-
 const StockPage: React.FC<any> = () => {
   const classes: { [key: string]: CSSProperties } = {
     dataGridBg: {
@@ -48,7 +43,7 @@ const StockPage: React.FC<any> = () => {
   );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [role, setRole] = useState<RoleEnum>(RoleEnum.modal);
+  const [role, setRole] = useState<ModalRoleEnum>(ModalRoleEnum.general);
   const [isOpen, setIsOpen] = useState(false);
   const [keyword, setKeyword] = useState<string>("");
   const toggle = () => {
@@ -134,7 +129,7 @@ const StockPage: React.FC<any> = () => {
         <Stack direction={"row"}>
           <IconButton
             onClick={() => {
-              setRole(RoleEnum.modal);
+              setRole(ModalRoleEnum.general);
               dispatch(stockIdActions.getById(row.id));
               toggle();
             }}
@@ -150,7 +145,7 @@ const StockPage: React.FC<any> = () => {
           </IconButton>
           <IconButton
             onClick={() => {
-              setRole(RoleEnum.confirmModal);
+              setRole(ModalRoleEnum.confirmDelete);
               dispatch(stockIdActions.getById(row.id));
               toggle();
             }}
@@ -253,7 +248,7 @@ const StockPage: React.FC<any> = () => {
         />
       </Box>
 
-      {role === RoleEnum.modal ? (
+      {role === ModalRoleEnum.general ? (
         <Modal isOpen={isOpen} onClose={toggle}>
           {stockIdReducer.isFetching ? (
             <>
