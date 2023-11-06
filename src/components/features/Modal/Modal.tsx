@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useRef, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
 import "./Modal.css";
 import { Box, Button } from "@mui/material";
@@ -15,6 +16,7 @@ interface ModalProps {
   onClose: () => void;
   onSubmit?: () => void;
   children: React.ReactNode;
+  textConfirm?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -23,6 +25,7 @@ const Modal: React.FC<ModalProps> = ({
   role = ModalRoleEnum.general,
   onSubmit = () => {},
   children,
+  textConfirm = "submit",
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -66,6 +69,19 @@ const Modal: React.FC<ModalProps> = ({
                 }}
               >
                 DELETE
+              </Button>
+            )}
+            {role === ModalRoleEnum.confirm && (
+              <Button
+                color="primary"
+                sx={{ color: "white" }}
+                variant="contained"
+                onClick={() => {
+                  onSubmit();
+                  onClose();
+                }}
+              >
+                {textConfirm}
               </Button>
             )}
           </Box>

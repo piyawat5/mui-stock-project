@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/alt-text */
 import {
   Box,
   Card,
@@ -10,6 +12,7 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import * as stockActions from "../../../actions/stock.action";
+import * as stockIdActions from "../../../actions/stockId.action";
 import { useAppDispatch } from "../../..";
 import { useSelector } from "react-redux";
 import { RootReducers } from "../../../reducers";
@@ -17,21 +20,39 @@ import { imageUrl } from "../../../Constants";
 import Pagination from "@mui/material/Pagination";
 import usePagination from "../../features/Pagination";
 import { useState } from "react";
-
-type ShoppingPageProps = {
-  //
-};
+import Modal from "../../features/Modal";
+import { ModalRoleEnum } from "../../features/Modal/Modal";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const ShoppingPage: React.FC<any> = () => {
-  let [page, setPage] = useState(1);
-  const PER_PAGE = 12;
-  const dispatch = useAppDispatch();
+  const xs = useMediaQuery("(max-width:500px)");
+
+  //reducer
   const stockReducers = useSelector(
     (state: RootReducers) => state.stockReducer
   );
+  const stockIdReducer = useSelector(
+    (state: RootReducers) => state.stockIdReducer
+  );
+
+  //action
+  const dispatch = useAppDispatch();
+
+  //modal
+  const [role, setRole] = useState<ModalRoleEnum>(ModalRoleEnum.confirm);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  //search
+  // const [keyword, setKeyword] = useState<string>("");
+
+  //Pagination
+  let [page, setPage] = useState(1);
+  const PER_PAGE = 12;
   const count = Math.ceil(stockReducers.res.length / PER_PAGE);
   const _DATA = usePagination(stockReducers.res, PER_PAGE);
-
   const handleChange = (e: any, p: any) => {
     setPage(p);
     _DATA.jump(p);
@@ -40,6 +61,7 @@ const ShoppingPage: React.FC<any> = () => {
   React.useEffect(() => {
     dispatch(stockActions.getStock());
   }, []);
+
   return (
     <Box>
       <Typography marginBottom={3} gutterBottom variant="h4">
@@ -77,11 +99,13 @@ const ShoppingPage: React.FC<any> = () => {
             <Card
               sx={{ cursor: "pointer" }}
               onClick={() => {
-                alert(res.id);
+                setRole(ModalRoleEnum.confirm);
+                dispatch(stockIdActions.getById(String(res.id)));
+                toggle();
               }}
             >
               <CardMedia
-                sx={{ height: 120 }}
+                sx={{ height: xs ? 120 : 200 }}
                 image={`${imageUrl}/images/${res.image}`}
                 title="green iguana"
               />
@@ -112,6 +136,59 @@ const ShoppingPage: React.FC<any> = () => {
           </Grid>
         ))}
       </Grid>
+
+      <Modal
+        role={role}
+        textConfirm="Add to cart"
+        onSubmit={() => {}}
+        isOpen={isOpen}
+        onClose={toggle}
+      >
+        {stockIdReducer.isFetching ? (
+          <>
+            <Skeleton animation="wave"></Skeleton>
+            <Skeleton animation="wave"></Skeleton>
+            <Skeleton animation="wave"></Skeleton>
+            <Box sx={{ my: 2 }}></Box>
+          </>
+        ) : (
+          <>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                textAlign: "center",
+              }}
+            >
+              <h3>{stockIdReducer.res?.name}</h3>
+
+              <Stack
+                direction={"column"}
+                justifyContent={"center"}
+                px={"20px"}
+                alignItems={"center"}
+              >
+                <Box sx={{ textAlign: "center" }}>
+                  <img
+                    src={`${imageUrl}/images/${stockIdReducer.res?.image}`}
+                    style={{ height: xs ? "150px" : "250px" }}
+                  ></img>
+                </Box>
+                <Stack
+                  direction={"row"}
+                  justifyContent={"space-between"}
+                  width={"100%"}
+                  maxWidth={xs ? "228px" : "375px"}
+                >
+                  <Box>Stock: {stockIdReducer.res?.stock}</Box>
+                  <Box>฿ {stockIdReducer.res?.price}</Box>
+                </Stack>
+              </Stack>
+            </Box>
+          </>
+        )}
+      </Modal>
     </Box>
   );
 };
